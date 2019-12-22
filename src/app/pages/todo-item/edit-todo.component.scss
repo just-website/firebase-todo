@@ -1,0 +1,62 @@
+.todo-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.title-input,
+.content-input {
+    padding: 10px 5px;
+    font-size: 18px;
+    margin-bottom: 20px;
+    box-shadow: 0px 5px 15px 5px rgba(0, 0, 0, 0.35);
+    border: none;
+}
+
+.content-input {
+    resize: vertical;
+    font-family: 'Roboto', sans-serif;
+}
+
+.button-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.save-button,
+.cancel-button {
+    display: flex;
+    border: 1px solid rgba(0,0,0,.5);
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    padding: 10px 20px;
+    align-items: center;
+    font-size: 20px;
+    width: 170px;
+    border-radius: 4px;
+    justify-content: space-between;
+    cursor: pointer;
+    color: #000;
+    text-decoration: none;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+.cancel-button {
+    margin-left: 10px;
+}
+
+.lables {
+    display: flex;
+    margin-left: auto;
+    float: right;
+    height: 51px;
+    align-items: center;
+}
+
+.label {
+    margin-left: 5px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid black;
+    float: right;
+    cursor: pointer;
+}

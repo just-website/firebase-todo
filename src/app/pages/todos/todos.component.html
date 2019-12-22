@@ -1,0 +1,54 @@
+<div class="container">
+    <p *ngIf="!isLoaded">
+        The data is being loaded, please wait...
+    </p>
+    <ul class="todo-list"
+        cdkDropList 
+        (cdkDropListDropped)="drop($event)"
+    >
+        <li class="todo-item" 
+        title="Double click opened todos editor page" 
+        *ngFor="let todo of syncTodos" 
+        (dblclick)="openTodo(todo)"
+        [ngClass]="{'todo-item--done': todo?.done}"
+        [ngStyle]="{'background-color': todo?.color}"
+        cdkDrag
+    >
+            <div class="todo-item__content" *ngIf="todo !== selectTodo">
+                <div class="todo-item__title">
+                    {{todo.title}}
+                </div>
+                <div class="todo-item__dscr">{{todo.description }}</div>
+            </div>
+            <div class="todo-item__editor" *ngIf="todo === selectTodo">
+                <input class="title-input" type="text" [(ngModel)]="selectTodo.title">
+                <textarea class="content-input" rows="1" [(ngModel)]="selectTodo.description"></textarea>
+            </div>
+            <div class="todo-item__buttons">
+                <i class="material-icons" (click)="removeTodo(todo)" *ngIf="todo !== selectTodo">
+                    remove_circle
+                </i>
+                <i class="material-icons" (click)="editTodo(todo)" *ngIf="todo !== selectTodo">
+                    edit
+                </i>
+                <i class="material-icons" (click)="setStatus(todo)" *ngIf="todo !== selectTodo">
+                    done_outline
+                </i>
+                <i class="material-icons" (click)="updateTodo(todo)" *ngIf="todo === selectTodo">
+                    <i class="material-icons">
+                        save_alt
+                    </i>
+                </i>
+                <div class="todo-item__date" *ngIf="todo.date">{{ todo.date | date:'dd.MM.yyyy HH:MM'}}</div>
+            </div>
+        </li>
+    </ul>
+
+    <a routerLink="/new-todo" class="add-todo-button">
+        Add new todo
+        <i class="material-icons">
+            add_circle_outline
+        </i>
+    </a>
+
+</div>
