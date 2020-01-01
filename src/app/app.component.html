@@ -18,7 +18,7 @@
     </router-outlet>
 </ng-container>
 
-<app-modal *ngIf="modalState" [modalState]="modalState" (onClose)="modalState = false"></app-modal>   
+<app-modal *ngIf="modalState" [modalState]="modalState" (onClose)="modalState = null"></app-modal>   
 
 <ng-template #authorizeMessage>
     <div class="container">

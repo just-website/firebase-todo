@@ -10,6 +10,7 @@ import { Observable, Subscriber, Subscription } from 'rxjs';
 })
 export class AppComponent implements OnInit {
     public currentUser;
+    public modalState: string;
     public state: Subscription;
     constructor(
         public auth: AuthorizeService,
