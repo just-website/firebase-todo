@@ -1,0 +1,31 @@
+<div class="modal-wrapper" (click)="closeModal()">
+    <div class="modal" (click)="stopProp($event)" *ngIf="modalState === 'sign-up'">
+        <button class="modal-close" (click)="closeModal()">Close</button>
+        <form class="modal-form" [formGroup]="signUpForm">
+            <input type="text" placeholder="email" formControlName="email">
+            <input type="password" placeholder="password" formControlName="password">
+            <input type="password" placeholder="confirm password" formControlName="confirmPassword">
+            <div class="modal-form__tooltip" *ngIf="signUpForm.invalid && signUpForm.controls['confirmPassword'].dirty && signUpForm.controls['confirmPassword'].touched">
+                Password incorect
+            </div>
+            <div class="modal-form__buttons">
+                <button (click)="submit(signUpForm)" [disabled]="signUpForm.invalid">Confirm</button>
+                <button (click)="resetForm(signUpForm)">Reset</button>
+            </div>
+        </form>
+    </div>
+    <div class="modal" (click)="stopProp($event)" *ngIf="modalState === 'login'">
+        <button class="modal-close" (click)="closeModal()">Close</button>
+        <form class="modal-form" [formGroup]="loginForm">
+            <input type="text" placeholder="email" formControlName="email">
+            <input type="password" placeholder="password" formControlName="password">
+            <div class="modal-form__tooltip" *ngIf="loginForm.invalid && loginForm.controls['password'].dirty && loginForm.controls['password'].touched">
+                Password incorect
+            </div>
+            <div class="modal-form__buttons">
+                <button (click)="submit(loginForm)" [disabled]="loginForm.invalid">Confirm</button>
+                <button (click)="resetForm(loginForm)">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>

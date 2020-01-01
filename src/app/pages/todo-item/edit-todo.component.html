@@ -1,7 +1,7 @@
 <div class="container">
     <div class="todo-wrapper">
-        <input type="text" class="title-input" [(ngModel)]="todo.title" [ngStyle]="{'background-color': todo.color }">
-        <textarea class="content-input" rows="10" [(ngModel)]="todo.description" [ngStyle]="{'background-color': todo.color }"></textarea>
+        <input type="text" class="title-input" [(ngModel)]="todo.title" [ngStyle]="{'background-color': todo?.color }">
+        <textarea class="content-input" rows="10" [(ngModel)]="todo.description" [ngStyle]="{'background-color': todo?.color }"></textarea>
     </div>
     <div class="button-wrapper">
         <button class="save-button" (click)="saveTodo()">

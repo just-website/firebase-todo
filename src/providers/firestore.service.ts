@@ -1,44 +1,54 @@
-import {Injectable} from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import {Injectable, OnInit} from '@angular/core';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection, DocumentData } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
-import { DocumentChange } from '@angular/fire/firestore'
 import { Todo } from 'src/models/todo.model';
+import { AuthorizeService } from './authorize.service';
 
 @Injectable({
     providedIn: 'root'
-}
-)
+})
 
-export class FireStoreService {
+export class FireStoreService implements OnInit {
     public item: Observable<any>;
+    private userID: string;
 
     constructor(
         public db: AngularFirestore,
+        public auth: AuthorizeService
     ) {
-
     }
-
-    getItem<T>(collectionName: string, id: string): AngularFirestoreDocument<T> {
-        return this.db.doc(`${collectionName}/${id}`);
-    }
-
-    addItem<T>( collectionName: string, data: T) {
-        const id = this.db.createId();
-        const item = { id, ...data };
-        this.db.collection(collectionName).doc(id).set(item);
-    }
-
     
-    updateItem<T>(collectionName: string, id: string, data: T) {
-        this.db.doc(`${collectionName}/${id}`).update(data);
+    ngOnInit() {
+        
     }
 
-    getAllItems<T>(collectionName: string) {
-        return this.db.collection<T>(collectionName);
+    getTodoItem<T>(id: string): AngularFirestoreDocument<T> {
+        this.userID = this.auth.getUserId();
+        return this.db.collection('Users').doc(this.userID).collection('Todos').doc(id);
     }
 
-    removeItem(id) {
-        this.db.doc('Todos/' + id).delete();
+    getAllTodoItems(): AngularFirestoreCollection<DocumentData> {
+        this.userID = this.auth.getUserId();
+        return this.db.collection('Users').doc(this.userID).collection('Todos');
+    }
 
+    removeTodoItem(id): void {
+        this.userID = this.auth.getUserId();
+        this.db.collection('Users').doc(this.userID).collection('Todos').doc(id).delete();
+    }
+    
+    addTodoItem(todo: Todo): void {
+        this.userID = this.auth.getUserId();
+        this.db.collection('Users').doc(this.userID).collection('Todos').add(todo);
+    }
+
+    updateTodoItem<T>(id: string, data: T): void {
+        this.userID = this.auth.getUserId();
+        this.db.collection('Users').doc(this.userID).collection('Todos').doc(id).update(data);
+    }
+
+    addUser( id: string): void {
+        this.userID = this.auth.getUserId();
+        this.db.collection('Users').doc(id).set({id});
     }
 }

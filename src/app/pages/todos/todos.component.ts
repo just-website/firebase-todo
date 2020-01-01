@@ -20,12 +20,12 @@ export class TodosComponent implements OnInit, OnDestroy {
   public selectTodo: Todo;
 
   constructor(
-    public fs: FireStoreService,
+    public db: FireStoreService,
     private router: Router,
     ) {}
 
   ngOnInit() {
-    const collection = this.fs.getAllItems<Todo>('Todos');
+    const collection = this.db.getAllTodoItems();
     this.todos = collection.snapshotChanges().pipe(
       map(actions => actions.map(a => {
         const data = a.payload.doc.data() as Todo;
@@ -43,7 +43,7 @@ export class TodosComponent implements OnInit, OnDestroy {
   }
 
   removeTodo(todo: Todo): void {
-    this.fs.removeItem(todo.id);
+    this.db.removeTodoItem(todo.id);
   }
 
   openTodo(todo: Todo): void {
@@ -54,10 +54,10 @@ export class TodosComponent implements OnInit, OnDestroy {
 
   setStatus(todo: Todo): void {
     const done = !todo.done;
-    this.fs.getItem('Todos', todo.id).update({done});
+    this.db.getTodoItem<Todo>(todo.id).update({done});
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.syncTodos, event.previousIndex, event.currentIndex);
   }
 
@@ -65,7 +65,7 @@ export class TodosComponent implements OnInit, OnDestroy {
     this.selectTodo = todo;
   }
 
-  updateTodo() {
+  updateTodo(): void {
     this.selectTodo = null;
   }
 

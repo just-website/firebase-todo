@@ -5,8 +5,26 @@
                 Todo App
             </a>
         </h1>
+        <div class="profile">
+            <p class="profile-item" *ngIf="currentUser">{{currentUser.email}}</p>
+            <button class="profile-btn" (click)="modalState = 'login'" *ngIf="!currentUser">Login</button>
+            <button class="profile-btn" (click)="logOut()" *ngIf="currentUser">Logout</button>
+            <button class="profile-btn" (click)="modalState = 'sign-up'" *ngIf="!currentUser">Sign up</button>
+        </div>
     </div>
 </div>
-<router-outlet>
+<ng-container *ngIf="currentUser;else authorizeMessage">
+    <router-outlet>
+    </router-outlet>
+</ng-container>
+
+<app-modal *ngIf="modalState" [modalState]="modalState" (onClose)="modalState = false"></app-modal>   
+
+<ng-template #authorizeMessage>
+    <div class="container">
+        <div class="not-auth">
+            Log in to continue...
+        </div>
+    </div>
+</ng-template>
   
-</router-outlet>

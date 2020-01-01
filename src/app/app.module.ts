@@ -7,17 +7,14 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { TodosComponent } from './pages/todos/todos.component';
 import { AngularFirestore } from '@angular/fire/firestore';
-import {Routes, RouterModule} from '@angular/router';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { EditTodoComponent } from './pages/todo-item/edit-todo.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { ModalModule } from './pages/modal/modal.module';
 
-const routes: Routes = [
-  { path: '', component: TodosComponent},
-  {path: 'todo/:id', component: EditTodoComponent},
-  {path: 'new-todo', component: EditTodoComponent},
-  { path: '**', redirectTo: '/'}
-]
+
+
 
 @NgModule({
   declarations: [
@@ -29,11 +26,13 @@ const routes: Routes = [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    RouterModule.forRoot(routes),
+    AppRoutingModule,
     DragDropModule,
+    ModalModule
   ],
-  providers: [AngularFirestore],
-  bootstrap: [AppComponent]
+  providers: [AngularFirestore, AngularFireAuth],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

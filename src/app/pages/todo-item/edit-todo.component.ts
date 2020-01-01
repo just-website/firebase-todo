@@ -18,7 +18,7 @@ export class EditTodoComponent implements OnInit, OnDestroy {
     public $route: Subscription;
 
     constructor(
-        public fs: FireStoreService,
+        public db: FireStoreService,
         public router: Router,
         public ar: ActivatedRoute
     ) {
@@ -32,7 +32,7 @@ export class EditTodoComponent implements OnInit, OnDestroy {
             description: ''
         }
         if (this.id) {
-            const todoDoc = this.fs.getItem<Todo>('Todos', this.id);
+            const todoDoc = this.db.getTodoItem<Todo>(this.id);
             todoDoc.valueChanges().subscribe(data => this.todo = data);
         }
     }
@@ -47,10 +47,10 @@ export class EditTodoComponent implements OnInit, OnDestroy {
 
     saveTodo(): void {
         if (this.id) {
-            this.fs.updateItem<Todo>('Todos', this.id, this.todo);
+            this.db.updateTodoItem<Todo>(this.id, this.todo);
         } else {
             this.todo.date = Date.now();
-            this.fs.addItem<Todo>('Todos', this.todo);
+            this.db.addTodoItem(this.todo);
         }
         this.router.navigate(
             ['/']
